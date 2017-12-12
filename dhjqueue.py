@@ -20,14 +20,18 @@ class Queue(object):
 
 
     def push(self, data):
-        self.r.lpush(self.queueKey, data)
-        #print (self.queueKey)
+        try:
+            self.r.lpush(self.queueKey, data)
+        except redis.ResponseError:
+            raise
 
     def pop(self):
        item = self.r.brpop(self.queueKey, self.timeout)
-       if item:
-         """ item is either nil or a 2-element array where [0] is the name of the key, [1] is the value"""
-         item = item[1]
+       #if item:
+       #  return item
+         ##""" item is either nil or a 2-element array where [0] is the name of the key, [1] is the value"""
+         ##item = item[1]
+       #return None 
        return item
 
 #redisClient.quit()
